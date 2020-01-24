@@ -54,7 +54,7 @@ class Film
     return result
   end
 
-  def count_customers() #counts number of customers
+  def count_customers() #COUNTS NUMBER OF CUSTOMERS
     sql = "SELECT COUNT(customer_id) FROM tickets WHERE tickets.film_id = $1"
     values = [@id]
     result = SqlRunner.run(sql, values)
@@ -62,7 +62,7 @@ class Film
     return customers
   end
 
-  def find_popular_time()
+  def find_popular_time() #FINDING POPULAR TIME
     sql = "SELECT screenings.showtime FROM screenings INNER JOIN tickets ON
       tickets.screen_id = screenings.id WHERE tickets.film_id = $1
       GROUP BY screenings.showtime

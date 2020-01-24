@@ -54,21 +54,19 @@ class Customer
     return result
   end
 
-  def buy_ticket()
+  def buy_ticket() #BUYING TICKET
     fees = 0
-    sql = "SELECT films.price FROM films
+    sql = "SELECT SUM (price) FROM films
            INNER JOIN tickets
            ON tickets.film_id = films.id
            WHERE tickets.customer_id = $1"
     values = [@id]
     results = SqlRunner.run(sql, values)
-    for charge in results
-      fees += charge['price'].to_i
-    end
-    return @funds -= fees
+    @funds -= results[0]['sum'].to_i
+    return @funds 
   end
 
-  def tickets()
+  def tickets() #FIND NUMBER OF TICKETS
     sql = "SELECT COUNT(customer_id) FROM tickets
            WHERE tickets.customer_id = $1"
     values = [@id]
@@ -77,7 +75,7 @@ class Customer
     return tickets
   end
 
-  def self.tickets_by_id(id)
+  def self.tickets_by_id(id) #FINDS TICKETS BY CUSTOMER ID
     sql = "SELECT * FROM tickets WHERE tickets.customer_id = $1"
     values = [id]
     result = SqlRunner.run(sql, values)
