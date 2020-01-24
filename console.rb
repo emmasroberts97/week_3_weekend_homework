@@ -2,6 +2,8 @@ require('pry')
 require_relative('models/customer.rb')
 require_relative('models/film.rb')
 require_relative('models/ticket.rb')
+require_relative('models/screening.rb')
+
 
 Customer.delete_all()
 Film.delete_all()
@@ -51,10 +53,27 @@ film2 = Film.new(
 
 film2.save()
 
+screen1 = Screening.new(
+  {
+    "showtime" => "10:00"
+  }
+)
+
+screen1.save()
+
+screen2 = Screening.new(
+  {
+    "showtime" => "13:00"
+  }
+)
+
+screen2.save()
+
 ticket1 = Ticket.new(
   {
     "customer_id" => customer1.id,
-    "film_id" => film2.id
+    "film_id" => film1.id,
+    "screen_id" => screen1.id
   }
 )
 
@@ -63,7 +82,8 @@ ticket1.save()
 ticket2 = Ticket.new(
   {
     "customer_id" => customer2.id,
-    "film_id" => film1.id
+    "film_id" => film1.id,
+    "screen_id" => screen1.id
   }
 )
 
@@ -72,11 +92,13 @@ ticket2.save()
 ticket3 = Ticket.new(
   {
     "customer_id" => customer1.id,
-    "film_id" => film1.id
+    "film_id" => film1.id,
+    "screen_id" => screen2.id
   }
 )
 
 ticket3.save()
+
 
 binding.pry
 nil

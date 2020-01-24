@@ -54,4 +54,22 @@ class Film
     return result
   end
 
+  def count_customers() #counts number of customers
+    sql = "SELECT COUNT(customer_id) FROM tickets WHERE tickets.film_id = $1"
+    values = [@id]
+    result = SqlRunner.run(sql, values)
+    customers = result[0]['count'].to_i
+    return customers
+  end
+
+  def find_popular_time()
+    sql = "SELECT screenings.showtime FROM screenings INNER JOIN tickets ON
+      tickets.screen_id = screenings.id WHERE tickets.film_id = $1
+      GROUP BY screenings.showtime
+      ORDER BY COUNT(*) DESC"
+    values = [@id]
+    result = SqlRunner.run(sql, values)
+    return result[0]["showtime"]
+  end
+
 end
